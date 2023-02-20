@@ -51,3 +51,26 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 - 결국 아무리 css 파일을 놔눠도 css 파일은 하나의 파일로 묶여진다.
 - 시멘틱이 중요한 이유 중 하나!
+
+## 24. Browser Caching
+
+- 캐시는 기본적으로 네트워크를 효율적이게 가동하는데 대단히 중요한 기능이다.
+- 킹치만 생각해보자. 캐시가 다운됐는데 그 캐시가 잘못된 js파일이었다면? 사용자는 새로운 파일을 다운 받고 싶어도 못 받을 것이다.
+- 그렇기에 요즘은 새로운 파일을, 새로운 이름으로 만든 후 다시 보낸다. (그럼 다운 안 받고는 못 베길테니까)
+
+```javascript
+//webpack
+
+  output: {
+    filename: "bundle.[contenthash].js",
+    path: path.resolve(__dirname, "dist"),
+    publicPath: "dist/",
+  },
+
+  plugins: [
+    new TerserPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "styles.[contenthash].css",
+    }),
+  ],
+```
