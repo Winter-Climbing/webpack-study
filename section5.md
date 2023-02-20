@@ -73,4 +73,58 @@ const TerserPlugin = require("terser-webpack-plugin");
       filename: "styles.[contenthash].css",
     }),
   ],
+
+// 저렇게 [contenthash]를 붙여서 md5 해시를 랜덤하게 붙여서 캐시 문제를 해결한다.
 ```
+
+<br>
+
+## 25. How To clean Dist Folder Before Generating New Bundle
+
+- 24에서 조금만 변경이 있어도 랜덤한 해시를 붙이는 파일을 생성했따.
+- 근데 넘 지저분하다
+- 이 부분을 해결하기 위한 플러그인이 필요하다.
+- (npm i -D clean-webpack-plugin)
+
+```javascript
+//webpack
+
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+
+  plugins: [
+    new CleanWebpackPlugin(),
+  ],
+
+  ---
+
+  // 아래와 같이 설정할 경우 다른 폴더에 있는 모든 파일을 output에 설정되어 있는 (지금은 dist) path로 다 집어 넣고 하나로 묶어 버린다.
+
+  new CleanWebpackPlugin({
+  cleanOnceBeforeBuildPatterns: [
+    "**/*",
+    path.join(process.cwd(), "build/**/*"),
+  ],
+}),
+```
+
+- npm run build 후, dist에 중복된 js, css 파일이 다 삭제되었다.
+
+<hr>
+
+- 하지만 웹팩 5.20 버전 부터는 위의 플러그인이 기존 버전 문법에 추가되었다. (output.clean)
+
+```javascript
+  output: {
+    filename: "bundle.[contenthash].js",
+    path: path.resolve(__dirname, "dist"),
+    publicPath: "dist/",
+    clean: {
+      dry: true,
+      keep: /\.css/
+    }
+  },
+```
+
+용례는 이곳을 참고하자
+
+> https://jeonghwan-kim.github.io/2022/08/21/webpack-output-clean
