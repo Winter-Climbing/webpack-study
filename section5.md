@@ -25,6 +25,8 @@ const TerserPlugin = require("terser-webpack-plugin");
 ```javascript
 //webpack
 
+
+  // npm에서 설치 후 변수로 불러왔다.
   const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
   // use에 0번째 배열에 있던 style-loader를 MiniCssExtractPlugin.loader로 바꿨다
@@ -44,3 +46,8 @@ const TerserPlugin = require("terser-webpack-plugin");
     }),
   ],
 ```
+
+## 23. Extracting Css into a Separate Bundle With mini-css-extract-plugin - 2
+
+- 결국 아무리 css 파일을 놔눠도 css 파일은 하나의 파일로 묶여진다.
+- 시멘틱이 중요한 이유 중 하나!
